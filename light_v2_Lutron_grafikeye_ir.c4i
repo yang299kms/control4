@@ -52,7 +52,7 @@
     <connections>
         <connection>
             <id>1</id>
-            <facing>6</facing>
+            <facing>0</facing>
             <connectionname>IR Sensor</connectionname>
             <type>1</type>
             <consumer>True</consumer>
