@@ -1,0 +1,87 @@
+<devicedata>
+    <copyright>Copyright 2004-2005 Control4 Corporation.  All rights reserved.</copyright>
+    <creator>Yang</creator>
+    <manufacturer>Lutron</manufacturer>
+    <name>Lutron GRAFIX Eye IR</name>
+    <model>GRAFIK Eye</model>
+    <created>10/07/2021 1:50 PM</created>
+    <modified>10/07/2021 1:50 PM</modified>
+    <version>2</version>
+    <small>devices_sm\dvd.gif</small>
+    <large>devices_lg\dvd.gif</large>
+    <control>av_gen</control>
+    <controlmethod>ir</controlmethod>
+    <driver>100050</driver>
+    <search_type>c4:av_gen</search_type>
+    <states />
+    <config>
+        <power_management_method>AlwaysOn</power_management_method>
+        <power_command_delay>0</power_command_delay>
+        <power_delay>0</power_delay>
+        <power_command_needed>False</power_command_needed>
+        <irsection>
+            <ircodes>
+                <ircode>
+                    <id>1000</id>
+                    <name>OFF</name>
+                    <transmit>PULSE</transmit>
+                    <repeatcount>1</repeatcount>
+                    <delayafter>0</delayafter>
+                    <pattern>0000 0063 0000 0007 0330 0111 005a 0111 005a 005b 016a 005b 005a 0111 005a 00b6 005a 01f2</pattern>
+                    <altpattern />
+                </ircode>
+                <ircode>
+                    <id>1001</id>
+                    <name>ON</name>
+                    <transmit>PULSE</transmit>
+                    <repeatcount>1</repeatcount>
+                    <delayafter>0</delayafter>
+                    <pattern>0000 0063 0000 0007 0356 011d 005f 011d 005f 0060 017b 0060 005f 011d 011d 0060 005f 01af</pattern>
+                    <altpattern />
+                </ircode>
+            </ircodes>
+        </irsection>
+    </config>
+    <proxies qty="1">
+        <proxy proxybindingid="5001">light_v2</proxy>
+    </proxies>
+    <capabilities>
+        <has_toad_input_select>False</has_toad_input_select>
+        <media_type>4</media_type>
+    </capabilities>
+    <connections>
+        <connection>
+            <id>1</id>
+            <facing>6</facing>
+            <connectionname>IR Sensor</connectionname>
+            <type>1</type>
+            <consumer>True</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>True</linelevel>
+            <classes>
+                <class>
+                    <classname>IR_OUT</classname>
+                </class>
+            </classes>
+        </connection>
+        <connection>
+            <id>5001</id>
+            <facing>6</facing>
+            <connectionname>LIGHT_V2</connectionname>
+            <type>2</type>
+            <consumer>False</consumer>
+            <audiosource>False</audiosource>
+            <videosource>False</videosource>
+            <linelevel>False</linelevel>
+            <classes>
+                <class>
+                    <classname>LIGHT_V2</classname>
+                </class>
+            </classes>
+        </connection>
+    </connections>
+    <composer_categories>
+        <category>Lighting</category>
+    </composer_categories>
+</devicedata>
