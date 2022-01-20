@@ -1,0 +1,443 @@
+<devicedata>
+  <copyright>Copyright 2021 - Yang Huang</copyright>
+  <creator>Yang Huang</creator>
+  <manufacturer>LG</manufacturer>
+  <name>LG OLED55C7P</name>
+  <model>OLED55C7P</model>
+  <created>12/05/2021 12:00 PM</created>
+  <modified>12/05/2021 1:00 PM</modified>
+  <version>100</version>
+  <small>devices_sm\tv.gif</small>
+  <large>devices_lg\tv.gif</large>
+  <control>lua_gen</control>
+  <controlmethod>ip</controlmethod>
+  <driver>DriverWorks</driver>
+  <proxies qty="1">
+    <proxy proxybindingid="5001">tv</proxy>
+  </proxies>
+  <capabilities>
+    <has_discrete_volume_control>True</has_discrete_volume_control>
+    <has_up_down_volume_control>True</has_up_down_volume_control>
+    <has_discrete_input_select>True</has_discrete_input_select>
+    <has_toad_input_select>True</has_toad_input_select>
+    <has_discrete_channel_select>True</has_discrete_channel_select>
+    <has_channel_up_down>True</has_channel_up_down>
+    <has_discrete_bass_control>True</has_discrete_bass_control>
+    <has_up_down_bass_control>True</has_up_down_bass_control>
+    <has_discrete_treble_control>True</has_discrete_treble_control>
+    <has_up_down_treble_control>True</has_up_down_treble_control>
+    <has_discrete_balance_control>True</has_discrete_balance_control>
+    <has_up_down_balance_control>True</has_up_down_balance_control>
+    <has_discrete_loudness_control>False</has_discrete_loudness_control>
+    <has_toggle_loudness_control>False</has_toggle_loudness_control>
+    <has_discrete_mute_control>True</has_discrete_mute_control>
+    <has_toggle_mute_control>True</has_toggle_mute_control>
+    <has_audio>True</has_audio>
+    <requires_channel_after_input>True</requires_channel_after_input>
+  </capabilities>
+  <connections>
+    <connection>
+      <id>1</id>
+      <facing>6</facing>
+      <connectionname>Serial 232</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>RS_232</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>2</id>
+      <facing>1</facing>
+      <connectionname>IR</connectionname>
+      <type>1</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>TV</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>TV</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>6001</id>
+      <facing>6</facing>
+      <connectionname>Network Connection</connectionname>
+      <type>4</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>TCP</classname>
+          <ports>
+            <port>
+              <number>9761</number>
+              <auto_connect>True</auto_connect>
+              <monitor_connection>True</monitor_connection>
+              <keep_connection>True</keep_connection>
+              <keep_alive>True</keep_alive>
+            </port>
+          </ports>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>4000</id>
+      <facing>6</facing>
+      <connectionname>Output</connectionname>
+      <type>6</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>DIGITAL_OPTICAL</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Room Selection - Output</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>True</audiosource>
+      <videosource>True</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>AUDIO_SELECTION</classname>
+        </class>
+        <class>
+          <classname>AUDIO_VOLUME</classname>
+        </class>
+        <class>
+          <classname>VIDEO_SELECTION</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>3001</id>
+      <facing>6</facing>
+      <connectionname>AV 1</connectionname>
+      <type>6</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>STEREO</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1001</id>
+      <facing>6</facing>
+      <connectionname>AV 1</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>COMPOSITE</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1021</id>
+      <facing>6</facing>
+      <connectionname>HDMI 1</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1022</id>
+      <facing>6</facing>
+      <connectionname>HDMI 2</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1023</id>
+      <facing>6</facing>
+      <connectionname>HDMI 3</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1024</id>
+      <facing>6</facing>
+      <connectionname>HDMI 4</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>HDMI</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1101</id>
+      <facing>6</facing>
+      <connectionname>Antenna TV (ATV)</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>RF_UHF_VHF</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1102</id>
+      <facing>6</facing>
+      <connectionname>Cable TV (CATV)</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>RF_CABLE</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1103</id>
+      <facing>6</facing>
+      <connectionname>Antenna TV (DTV)</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>RF_UHF_VHF</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection proxybindingid="5001">
+      <id>1104</id>
+      <facing>6</facing>
+      <connectionname>Cable TV (CADTV)</connectionname>
+      <type>5</type>
+      <consumer>True</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>RF_CABLE</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <config>
+    <power_management_method>DiscreteCodes</power_management_method>
+    <power_command_delay>5</power_command_delay>
+    <power_delay>0</power_delay>
+    <power_command_needed>False</power_command_needed>
+    <serialsettings>9600 8 none 1 none 232</serialsettings>
+    <documentation file="documentation.rtf" />
+    <script file="driver.lua" />
+    <properties>
+      <property>
+        <name>Log Level</name>
+        <type>LIST</type>
+        <readonly>false</readonly>
+        <default>2 - Warning</default>
+        <items>
+          <item>0 - Alert</item>
+          <item>1 - Error</item>
+          <item>2 - Warning</item>
+          <item>3 - Info</item>
+          <item>4 - Trace</item>
+          <item>5 - Debug</item>
+        </items>
+      </property>
+      <property>
+        <name>Log Mode</name>
+        <type>LIST</type>
+        <readonly>false</readonly>
+        <default>Off</default>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+      </property>
+      <property>
+        <name>Command Delay Milliseconds</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>false</readonly>
+        <default>250</default>
+        <minimum>200</minimum>
+        <maximum>2500</maximum>
+      </property>
+      <property>
+        <name>Power On Delay Seconds</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>false</readonly>
+        <default>10</default>
+        <minimum>1</minimum>
+        <maximum>30</maximum>
+      </property>
+      <property>
+        <name>Power Off Delay Seconds</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>1</minimum>
+        <maximum>5</maximum>
+        <default>2</default>
+      </property>
+      <property>
+        <name>Volume Ramp Delay Milliseconds</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>false</readonly>
+        <default>200</default>
+        <minimum>200</minimum>
+        <maximum>500</maximum>
+      </property>
+      <property>
+        <name>NetworkKeepAliveIntervalSeconds</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>false</readonly>
+        <default>30</default>
+        <minimum>1</minimum>
+        <maximum>120</maximum>
+      </property>
+      <property>
+        <name>Connected To Network</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>false</default>
+      </property>
+      <property>
+        <name>== Volume Ramping Settings ==</name>
+        <type>STRING</type>
+        <readonly>true</readonly>
+        <default>========== Volume Ramping ==========</default>
+      </property>
+      <property>
+        <name>Ramping Method</name>
+        <type>LIST</type>
+        <readonly>false</readonly>
+        <default>Volume Curve</default>
+        <items>
+          <item>Pulse Commands</item>
+          <item>Volume Curve</item>
+        </items>
+      </property>
+      <property>
+        <name>Volume Ramp Steps</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>false</readonly>
+        <default>100</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+      </property>
+      <property>
+        <name>Volume Ramp Slope</name>
+        <type>RANGED_INTEGER</type>
+        <readonly>false</readonly>
+        <default>100</default>
+        <minimum>0</minimum>
+        <maximum>100</maximum>
+      </property>
+      <property>
+        <name>Ethernet MAC</name>
+        <type>STRING</type>
+        <readonly>false</readonly>
+        <default></default>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Print Volume Curve</name>
+        <command>PrintVolumeCurve</command>
+      </action>
+      <action>
+        <name>GetMAC</name>
+        <command>GetMAC</command>
+      </action>
+      <action>
+        <name>Send WOL</name>
+        <command>SendWOL</command>
+      </action>
+      <action>
+        <name>Send OFF</name>
+        <command>SendOFF</command>
+      </action>
+      <action>
+        <name>Send Input</name>
+        <command>SendInput</command>
+      </action>
+    </actions>
+  </config>
+  <composer_categories>
+    <category>Audio/Video</category>
+  </composer_categories>
+  <search_types>
+    <type>c4:av_gen</type>
+  </search_types>
+</devicedata>

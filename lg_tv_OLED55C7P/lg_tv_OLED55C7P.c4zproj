@@ -1,0 +1,20 @@
+﻿<Driver type="c4z" name="lg_tv_OLED55C7P">
+ <Items>
+  <Item type="dir" c4zDir="common" name="common" recurse="true" exclude="false" />
+  <Item type="dir" c4zDir="icons" name="icons" recurse="true" exclude="false" />
+  <Item type="dir" c4zDir="lib" name="lib" recurse="true" exclude="false" />
+  <Item type="dir" c4zDir="tv" name="tv" recurse="true" exclude="false" />
+  <Item type="dir" c4zDir="www" name="www" recurse="true" exclude="false" />
+  <Item type="file" name="actions.lua" />
+  <Item type="file" name="connections.lua" />
+  <Item type="file" name="device_messages.lua" />
+  <Item type="file" name="device_specific_commands.lua" />
+  <Item type="file" name="documentation.rtf" />
+  <Item type="file" name="driver.lua" />
+  <Item type="file" name="driver.xml" />
+  <Item type="file" name="properties.lua" />
+  <Item type="file" name="proxy_commands.lua" />
+  <Item type="file" name="template documentation.rtf" exclude="true" />
+  <Item type="file" name="tv_init.lua" />
+ </Items>
+</Driver>
