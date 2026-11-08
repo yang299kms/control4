@@ -1,0 +1,649 @@
+<devicedata>
+  <version>13</version>
+  <name>Lutron GRAFIK Eye (IR Lua)</name>
+  <manufacturer>Lutron</manufacturer>
+  <model>GRAFIK Eye IR Lua</model>
+  <creator>Yang</creator>
+  <created>10/7/2021 1:50:00 PM</created>
+  <modified>11/6/2026 1:00:00 AM</modified>
+  <small>devices_sm\C4.gif</small>
+  <large>devices_lg\C4.gif</large>
+  <control>lua_gen</control>
+  <controlmethod>ir</controlmethod>
+  <driver>DriverWorks</driver>
+  <search_type>c4:light_v2</search_type>
+  <copyright>Yang</copyright>
+  <proxies>
+    <proxy proxybindingid="5001" name="GRAFIK Eye">light_v2</proxy>
+  </proxies>
+  <capabilities>
+    <dimmer>False</dimmer>
+    <set_level>False</set_level>
+    <ramp_level>False</ramp_level>
+    <on_off>True</on_off>
+    <supports_target>True</supports_target>
+    <supports_color>False</supports_color>
+    <supports_color_correlated_temperature>False</supports_color_correlated_temperature>
+  </capabilities>
+  <connections>
+    <connection>
+      <id>1</id>
+      <type>1</type>
+      <connectionname>IR Sensor</connectionname>
+      <consumer>True</consumer>
+      <linelevel>True</linelevel>
+      <classes>
+        <class>
+          <classname>IR_OUT</classname>
+        </class>
+      </classes>
+    </connection>
+    <connection>
+      <id>5001</id>
+      <type>2</type>
+      <connectionname>LIGHT_V2</connectionname>
+      <consumer>False</consumer>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>LIGHT_V2</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <events>
+    <event>
+      <id>1</id>
+      <name>Scene Changed</name>
+      <description>NAME scene changed</description>
+    </event>
+  </events>
+  <config>
+    <power_command_delay>0</power_command_delay>
+    <power_command_needed>False</power_command_needed>
+    <power_delay>0</power_delay>
+    <power_management_method>AlwaysOn</power_management_method>
+    <documentation>
+Lutron GRAFIK Eye - IR scene control as Control4 lights (light_v2). Requires OS 3.2.0+ to add scene lights.
+
+SETUP
+1. Add this driver ONCE. That device is the main "GRAFIK Eye" light.
+2. Bind its "IR Sensor" to the IR output with the emitter on the GRAFIK Eye.
+3. Actions tab: "Add Scene Light: ..." (or "Add All Scene Lights").
+   Each creates a light for that scene in the same room, already set up.
+   Nothing to bind on the scene lights. Refresh Composer to see them.
+
+REMOVING A SCENE
+Delete that scene light in Composer, then press "Refresh Scene Lights"
+on the main device (it also refreshes on its own when the scene changes).
+
+BEHAVIOUR
+Main light : On sends "Main On Scene", Off sends OFF. Shows on when any scene is on.
+Scene light: On activates its scene. Off sends OFF only if its scene is active.
+Only the active scene's light shows on.
+
+The GRAFIK Eye cannot report state over IR, so the driver tracks the last scene
+it sent. If someone uses the wall unit directly, use the "Set State Only"
+actions to correct it without sending IR.
+    </documentation>
+    <properties>
+      <property>
+        <name>Light Role</name>
+        <type>STRING</type>
+        <default>Main (sends IR)</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Main On Scene</name>
+        <type>LIST</type>
+        <items>
+          <item>ON</item>
+          <item>STAGE</item>
+          <item>CEILING</item>
+          <item>STEPS</item>
+          <item>PAUSE</item>
+        </items>
+        <default>ON</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Scene Lights</name>
+        <type>STRING</type>
+        <default>None</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Current Scene</name>
+        <type>STRING</type>
+        <default>OFF</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Status</name>
+        <type>STRING</type>
+        <default></default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>On</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+    </properties>
+    <actions>
+      <action><name>Add Scene Light: Scene On</name><command>ADD_ON</command></action>
+      <action><name>Add Scene Light: Stage</name><command>ADD_STAGE</command></action>
+      <action><name>Add Scene Light: Ceiling</name><command>ADD_CEILING</command></action>
+      <action><name>Add Scene Light: Steps</name><command>ADD_STEPS</command></action>
+      <action><name>Add Scene Light: Pause</name><command>ADD_PAUSE</command></action>
+      <action><name>Add All Scene Lights</name><command>ADD_ALL</command></action>
+      <action><name>Refresh Scene Lights</name><command>REFRESH</command></action>
+      <action><name>Send ON</name><command>SCENE_ON</command></action>
+      <action><name>Send STAGE</name><command>SCENE_STAGE</command></action>
+      <action><name>Send CEILING</name><command>SCENE_CEILING</command></action>
+      <action><name>Send STEPS</name><command>SCENE_STEPS</command></action>
+      <action><name>Send PAUSE</name><command>SCENE_PAUSE</command></action>
+      <action><name>Send OFF</name><command>SCENE_OFF</command></action>
+      <action><name>Set State Only: Off (no IR)</name><command>STATE_OFF</command></action>
+      <action><name>Set State Only: This Light On (no IR)</name><command>STATE_ON</command></action>
+    </actions>
+    <commands>
+      <command>
+        <name>Activate Scene</name>
+        <description>Activate GRAFIK Eye scene PARAM1</description>
+        <params>
+          <param>
+            <name>Scene</name>
+            <type>LIST</type>
+            <items>
+              <item>ON</item>
+              <item>STAGE</item>
+              <item>CEILING</item>
+              <item>STEPS</item>
+              <item>PAUSE</item>
+              <item>OFF</item>
+            </items>
+          </param>
+        </params>
+      </command>
+    </commands>
+    <script><![CDATA[
+--[[ Lutron GRAFIK Eye (IR) as light_v2 lights - DriverWorks / OS 3.2+
+
+     The device you add is the MAIN light: it owns the IR binding and can
+     create "scene lights" (more copies of this same driver) with C4:AddDevice.
+     Scene lights send their requests to the main device, which sends IR and
+     pushes the current scene back to every scene light. ]]
+
+local PROXY_ID     = 5001
+local IR_BINDING   = 1
+local DEFAULT_FILE = "light_v2_Lutron_GRAFIK Eye.c4i"
+
+-- IR code ids from the <irsection> below
+local SCENE_CODES = {
+  ON      = 1001,
+  STAGE   = 1003,
+  CEILING = 1004,
+  STEPS   = 1005,
+  PAUSE   = 3,
+  OFF     = 1000,
+}
+local SCENE_ORDER = { "ON", "STAGE", "CEILING", "STEPS", "PAUSE" }
+local SCENE_NAMES = {
+  ON = "Scene On", STAGE = "Stage", CEILING = "Ceiling", STEPS = "Steps", PAUSE = "Pause",
+}
+local MAIN_ONLY_PROPS = { "Main On Scene", "Scene Lights" }
+
+PersistData = PersistData or {}
+PersistData.scene    = PersistData.scene or "OFF"
+PersistData.children = PersistData.children or {}   -- main only: [tostring(deviceId)] = scene
+-- PersistData.role : nil on the main device, scene name on a scene light
+-- PersistData.main : main device id (scene lights only)
+
+local lastPressTime = 0
+local addQueue      = {}
+local adding        = false
+
+------------------------------------------------------------------ helpers
+
+local function dbg(...)
+  if Properties["Debug Mode"] == "On" then
+    local parts = {}
+    for i, v in ipairs({ ... }) do parts[i] = tostring(v) end
+    print("[GRAFIK Eye " .. (PersistData.role or "MAIN") .. "] " .. table.concat(parts, " "))
+  end
+end
+
+local function isMain()
+  return PersistData.role == nil
+end
+
+local function myDeviceId()
+  return C4:GetDeviceID()
+end
+
+local function driverFile()
+  local ok, name = pcall(function() return C4:GetDriverFileName() end)
+  if ok and name and name ~= "" then return name end
+  return DEFAULT_FILE
+end
+
+local function setStatus(text)
+  C4:UpdateProperty("Status", text)
+  dbg("status:", text)
+end
+
+local function osAtLeast(major, minor)
+  local ok, info = pcall(function() return C4:GetVersionInfo() end)
+  local v = ok and info and info.version or ""
+  local a, b = v:match("^(%d+)%.(%d+)")
+  a, b = tonumber(a), tonumber(b)
+  if not a then return true end -- unknown: just try
+  return a > major or (a == major and b >= minor)
+end
+
+local function hasIR()
+  local p = tonumber(C4:GetBoundProviderDevice(myDeviceId(), IR_BINDING))
+  return p ~= nil and p ~= 0
+end
+
+local function setPropVisible(name, visible)
+  if C4.SetPropertyAttribs then
+    pcall(function() C4:SetPropertyAttribs(name, visible and 0 or 1) end)
+  end
+end
+
+local function after(ms, fn)
+  C4:SetTimer(ms, function(timer) fn() end)
+end
+
+------------------------------------------------------------------ state
+
+local function myLevel()
+  local s = PersistData.scene
+  if isMain() then return s ~= "OFF" and 100 or 0 end
+  return s == PersistData.role and 100 or 0
+end
+
+local function reportState()
+  C4:SendToProxy(PROXY_ID, "LIGHT_BRIGHTNESS_CHANGED",
+    { LIGHT_BRIGHTNESS_CURRENT = myLevel() }, "NOTIFY")
+  C4:UpdateProperty("Current Scene", PersistData.scene)
+end
+
+local function setState(scene)
+  local changed = PersistData.scene ~= scene
+  PersistData.scene = scene
+  reportState()
+  if changed then C4:FireEvent("Scene Changed") end
+  dbg("state now", scene)
+end
+
+------------------------------------------------------------------ main: scene lights
+
+-- Drop scene lights that were deleted in Composer
+local function pruneChildren()
+  local existing = {}
+  for id, _ in pairs(C4:GetDevicesByC4iName(driverFile()) or {}) do
+    existing[tostring(id)] = true
+  end
+  for id, _ in pairs(PersistData.children) do
+    if not existing[id] then
+      dbg("scene light", id, "was deleted")
+      PersistData.children[id] = nil
+    end
+  end
+end
+
+local function updateChildList()
+  local names = {}
+  for _, scene in ipairs(SCENE_ORDER) do
+    for _, s in pairs(PersistData.children) do
+      if s == scene then table.insert(names, SCENE_NAMES[scene]) break end
+    end
+  end
+  C4:UpdateProperty("Scene Lights", #names > 0 and table.concat(names, ", ") or "None")
+end
+
+local function childForScene(scene)
+  for id, s in pairs(PersistData.children) do
+    if s == scene then return id end
+  end
+end
+
+local function setupChild(id, scene)
+  C4:SendToDevice(tonumber(id), "GRAFIK_SETUP", {
+    ROLE  = scene,
+    MAIN  = tostring(myDeviceId()),
+    SCENE = PersistData.scene,
+  })
+end
+
+local function broadcastState(scene)
+  pruneChildren()
+  updateChildList()
+  for id, _ in pairs(PersistData.children) do
+    C4:SendToDevice(tonumber(id), "GRAFIK_STATE", { SCENE = scene })
+  end
+end
+
+local addNext -- forward declaration
+
+local function addSceneLight(scene)
+  pruneChildren()
+  if childForScene(scene) then
+    setStatus(SCENE_NAMES[scene] .. " light already exists")
+    return addNext()
+  end
+  local name = SCENE_NAMES[scene]
+  setStatus("Adding " .. name .. " light...")
+  C4:AddDevice(driverFile(), C4:RoomGetId(), name, function(deviceId, tParams)
+    deviceId = tonumber(deviceId) or 0
+    if deviceId == 0 then
+      setStatus("Could not add " .. name .. " light")
+    else
+      PersistData.children[tostring(deviceId)] = scene
+      updateChildList()
+      -- give the new driver time to start before configuring it
+      after(10000, function()
+        setupChild(deviceId, scene)
+        setStatus("Added " .. name .. " light - refresh Composer to see it")
+      end)
+    end
+    after(5000, addNext)
+  end)
+end
+
+addNext = function()
+  local scene = table.remove(addQueue, 1)
+  if scene then
+    addSceneLight(scene)
+  else
+    adding = false
+  end
+end
+
+local function queueAdd(scenes)
+  if not isMain() then
+    setStatus("Use the main GRAFIK Eye device to add scene lights")
+    return
+  end
+  if not osAtLeast(3, 2) then
+    setStatus("Adding scene lights needs Control4 OS 3.2.0 or newer")
+    return
+  end
+  for _, s in ipairs(scenes) do table.insert(addQueue, s) end
+  if not adding then
+    adding = true
+    addNext()
+  end
+end
+
+------------------------------------------------------------------ sending scenes
+
+-- main only
+local function transmitScene(scene)
+  local code = SCENE_CODES[scene]
+  if not code then return end
+  if not hasIR() then setStatus("IR Sensor is not bound") end
+  dbg("sending IR", scene, "code", code)
+  C4:SendIR(IR_BINDING, code)
+  setState(scene)
+  broadcastState(scene)
+end
+
+local function requestScene(scene)
+  if not SCENE_CODES[scene] then
+    dbg("unknown scene", scene)
+    return
+  end
+  if isMain() then
+    transmitScene(scene)
+  elseif PersistData.main then
+    C4:SendToDevice(PersistData.main, "GRAFIK_SEND", { SCENE = scene })
+    setState(scene)
+  else
+    setStatus("Not linked to a main GRAFIK Eye device")
+  end
+end
+
+local function onScene()
+  if isMain() then return Properties["Main On Scene"] or "ON" end
+  return PersistData.role
+end
+
+local function lightOn() requestScene(onScene()) end
+
+-- Main always sends OFF. A scene light only sends OFF if its scene is active.
+local function lightOff()
+  if isMain() or myLevel() > 0 then
+    requestScene("OFF")
+  else
+    reportState()
+  end
+end
+
+local function lightToggle()
+  if myLevel() > 0 then lightOff() else lightOn() end
+end
+
+local function setLevel(level)
+  level = tonumber(level) or 0
+  if level > 0 then lightOn() else lightOff() end
+end
+
+-- BUTTON_ID: 0 = top, 1 = bottom, 2 = toggle
+-- ACTION:    0 = release (hold), 1 = press, 2 = release (click)
+-- Act on press; ignore the click that follows so it doesn't fire twice.
+local function buttonAction(buttonId, action)
+  local now = C4:GetTime()
+  if action == "1" then
+    lastPressTime = now
+  elseif action == "2" then
+    if now - lastPressTime < 2000 then return end
+  else
+    return
+  end
+  if buttonId == "0" then lightOn()
+  elseif buttonId == "1" then lightOff()
+  elseif buttonId == "2" then lightToggle()
+  end
+end
+
+------------------------------------------------------------------ role display
+
+local function applyRole()
+  if isMain() then
+    C4:UpdateProperty("Light Role", "Main (sends IR)")
+    for _, p in ipairs(MAIN_ONLY_PROPS) do setPropVisible(p, true) end
+    updateChildList()
+  else
+    C4:UpdateProperty("Light Role", "Scene light: " .. (SCENE_NAMES[PersistData.role] or PersistData.role))
+    for _, p in ipairs(MAIN_ONLY_PROPS) do setPropVisible(p, false) end
+  end
+end
+
+------------------------------------------------------------------ entry points
+
+function ReceivedFromProxy(idBinding, strCommand, tParams)
+  tParams = tParams or {}
+  dbg("from proxy", idBinding, strCommand)
+  if idBinding ~= PROXY_ID then return end
+
+  if strCommand == "ON" then
+    lightOn()
+  elseif strCommand == "OFF" then
+    lightOff()
+  elseif strCommand == "TOGGLE" then
+    lightToggle()
+  elseif strCommand == "SET_BRIGHTNESS_TARGET" then
+    setLevel(tParams.LIGHT_BRIGHTNESS_TARGET)
+  elseif strCommand == "SET_LEVEL" or strCommand == "RAMP_TO_LEVEL" then
+    setLevel(tParams.LEVEL)
+  elseif strCommand == "BUTTON_ACTION" then
+    buttonAction(tParams.BUTTON_ID, tParams.ACTION)
+  elseif strCommand == "DO_PUSH" or strCommand == "DO_CLICK" then
+    buttonAction(tParams.BUTTON_ID, strCommand == "DO_PUSH" and "1" or "2")
+  else
+    reportState()
+  end
+end
+
+function ExecuteCommand(strCommand, tParams)
+  tParams = tParams or {}
+  dbg("command", strCommand, tParams.SCENE or tParams.ACTION or "")
+
+  ---------------- messages between the main device and scene lights
+  if strCommand == "GRAFIK_SETUP" then
+    -- sent by the main device to a scene light it created
+    PersistData.role = tParams.ROLE
+    PersistData.main = tonumber(tParams.MAIN)
+    PersistData.children = {}
+    applyRole()
+    setStatus("Linked to main GRAFIK Eye")
+    if SCENE_CODES[tParams.SCENE or ""] then setState(tParams.SCENE) end
+
+  elseif strCommand == "GRAFIK_SEND" then
+    if isMain() then transmitScene(tParams.SCENE) end
+
+  elseif strCommand == "GRAFIK_STATE" then
+    if SCENE_CODES[tParams.SCENE or ""] then setState(tParams.SCENE) end
+
+  elseif strCommand == "GRAFIK_STATE_REQUEST" then
+    if isMain() and tonumber(tParams.FROM) then
+      C4:SendToDevice(tonumber(tParams.FROM), "GRAFIK_STATE", { SCENE = PersistData.scene })
+    end
+
+  ---------------- Actions tab
+  elseif strCommand == "LUA_ACTION" then
+    local a = tParams.ACTION or ""
+    local addScene  = a:match("^ADD_(.+)$")
+    local sendScene = a:match("^SCENE_(.+)$")
+    if a == "ADD_ALL" then
+      queueAdd(SCENE_ORDER)
+    elseif addScene and SCENE_CODES[addScene] then
+      queueAdd({ addScene })
+    elseif a == "REFRESH" then
+      if isMain() then
+        pruneChildren()
+        updateChildList()
+        for id, scene in pairs(PersistData.children) do setupChild(id, scene) end
+        setStatus("Scene lights refreshed")
+      end
+    elseif sendScene then
+      requestScene(sendScene)
+    elseif a == "STATE_OFF" or a == "STATE_ON" then
+      local s = (a == "STATE_OFF") and "OFF" or onScene()
+      if isMain() then
+        setState(s)
+        broadcastState(s)
+      elseif PersistData.main then
+        C4:SendToDevice(PersistData.main, "GRAFIK_SET_STATE", { SCENE = s })
+      end
+    end
+
+  elseif strCommand == "GRAFIK_SET_STATE" then
+    if isMain() and SCENE_CODES[tParams.SCENE or ""] then
+      setState(tParams.SCENE)
+      broadcastState(tParams.SCENE)
+    end
+
+  ---------------- Programming
+  elseif strCommand == "Activate Scene" then
+    requestScene(tParams.Scene)
+  end
+end
+
+function OnPropertyChanged(strProperty)
+  dbg("property changed", strProperty, Properties[strProperty])
+end
+
+function OnBindingChanged(idBinding, strClass, bIsBound)
+  if idBinding == IR_BINDING and isMain() then
+    setStatus(hasIR() and "IR bound" or "IR Sensor is not bound")
+  end
+end
+
+function OnDriverLateInit()
+  C4:SendToProxy(PROXY_ID, "ONLINE_CHANGED", { STATE = true }, "NOTIFY")
+  applyRole()
+  reportState()
+  if isMain() then
+    setStatus(hasIR() and "IR bound" or "IR Sensor is not bound")
+    -- re-link scene lights after a reboot or driver update
+    after(15000, function()
+      pruneChildren()
+      updateChildList()
+      for id, scene in pairs(PersistData.children) do setupChild(id, scene) end
+    end)
+  elseif PersistData.main then
+    C4:SendToDevice(PersistData.main, "GRAFIK_STATE_REQUEST", { FROM = tostring(myDeviceId()) })
+  end
+end
+]]></script>
+    <irsection>
+      <ircodes>
+        <ircode verified="False" controlrating="0">
+          <id>1001</id>
+          <name>ON</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0066 0000 0007 033e 0113 005d 0113 005d 005b 0171 005b 005d 0113 0115 005b 005d 016f</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1000</id>
+          <name>OFF</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0066 0000 0007 033e 0113 005d 0114 005d 005c 0171 005c 005d 0113 005d 00b7 005d 01cb</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1004</id>
+          <name>CEILING</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0066 0000 0006 033e 0113 005d 0113 005d 005c 0171 005c 005d 005c 0229 01cb</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>3</id>
+          <name>PAUSE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0066 0000 0008 033e 0114 005d 0113 005d 005c 0171 005c 005d 00b7 005d 005c 005d 005c 00b9 016f</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1005</id>
+          <name>STEPS</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0066 0000 0007 033e 0113 005d 0113 005d 005c 0171 005b 005d 005c 0115 0113 005d 016f</pattern>
+          <altpattern />
+        </ircode>
+        <ircode verified="False" controlrating="0">
+          <id>1003</id>
+          <name>STAGE</name>
+          <transmit>PULSE</transmit>
+          <repeatcount>5</repeatcount>
+          <delayafter>0</delayafter>
+          <pattern>0000 0066 0000 0007 033e 0113 005d 0113 005d 005c 0171 005c 005d 005c 005d 0113 0115 016f</pattern>
+          <altpattern />
+        </ircode>
+      </ircodes>
+      <ircodemacros />
+    </irsection>
+  </config>
+</devicedata>
